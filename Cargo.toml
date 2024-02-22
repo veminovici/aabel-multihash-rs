@@ -1,7 +1,7 @@
 [package]
 keywords = ["hash", "probabilistic"]
 name = "aabel-multihash-rs"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Vlad Eminovici"]
 description = "A crate the extends Hasher trait. The added functionality allows users to get sequeces of hash values. It can be used inside of implementations of probabilistic data structures such bloom filter or count-min."

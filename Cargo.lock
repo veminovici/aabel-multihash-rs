@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "aabel-multihash-rs"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "rand",
  "siphasher",
