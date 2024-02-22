@@ -8,7 +8,7 @@ description = "A crate the extends Hasher trait. The added functionality allows 
 homepage = "https://github.com/veminovici/aabel-multihash-rs"
 repository = "https://github.com/veminovici/aabel-multihash-rs"
 license = "MIT OR Apache-2.0"
-categories = ["utilities"]
+categories = ["algorithms", "data-structures"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
