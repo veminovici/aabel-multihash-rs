@@ -1,5 +1,7 @@
 # Simplee > Aabel >> Multi-Hash
 
+[![Crates.io][crates-badge]][crates-url]
+[![CI][ci-badge]][ci-url]
 ![GitHub top language][lang-badge]
 [![License:MIT][license-badge]][license-url]
 ![GitHub code size in bytes][size-badge]
@@ -42,4 +44,14 @@ assert_eq!(hashes.len(), HASHE_COUNT)
 ## About
 > Code designed and written on the beautiful island of [**Saaremaa**][estonia], Estonia.
 
+[crates-badge]: https://img.shields.io/crates/v/aabel-multihash-rs.svg
+[crates-url]: https://crates.io/crates/aabel-multihash-rs
+[ci-badge]: https://github.com/veminovici/aabel-multihash-rs/actions/workflows/ci.yml/badge.svg?branch=main
+[ci-url]: https://github.com/veminovici/aabel-multihash-rs/actions/workflows/ci.yml
+[lang-badge]: https://img.shields.io/github/languages/top/veminovici/aabel-multihash-rs
+[license-badge]: https://img.shields.io/badge/License-MIT-yellow.svg
+[license-url]: https://opensource.org/licenses/MIT
+[size-badge]: https://img.shields.io/github/languages/code-size/veminovici/aabel-multihash-rs
+[last-commit-badge]: https://img.shields.io/github/last-commit/veminovici/aabel-multihash-rs
+[watchers-badge]: https://img.shields.io/github/watchers/veminovici/aabel-multihash-rs
 [estonia]: https://goo.gl/maps/DmB9ewY2R3sPGFnTA
