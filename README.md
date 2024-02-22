@@ -35,7 +35,9 @@ pub trait BuildHasherExt: BuildHasher {
 }
 ```
 
-The crate provides **BuildPairHasher** which implements the **BuildHasherExt** trait. The implementation uses two hashers builders, which are used to build internally a **PairHasher** instance. You can find the source of the **BuildPairHasher** in the [pairhasher.rs][pairhasherrs_url]. The **BuildPairHasher**is the main entry point for the users which want to get sequences of hash values, see the example below.
+The crate provides **BuildPairHasher** which implements the **BuildHasherExt** trait. The implementation uses two hashers builders, which are used to build internally a **PairHasher** instance. You can find the source of the **BuildPairHasher** in the [pairhasher.rs][pairhasherrs_url]. 
+
+The **BuildPairHasher** is the main entry point for the users who want to get sequences of hash values, see the example below.
 
 ## Example
 
