@@ -14,12 +14,12 @@
 //! # Example
 //!
 //!```
-//! use aabel_multihash_rs::{BuildHasherExt, PairHasherBuilder};
+//! use aabel_multihash_rs::{BuildHasherExt, BuildPairHasher};
 //! use std::hash::{BuildHasher, Hash};
 //!
 //! let keys1 = (0, 0);
 //! let keys2 = (1, 1);
-//! let builder = PairHasherBuilder::new_with_keys(keys1, keys2);
+//! let builder = BuildPairHasher::new_with_keys(keys1, keys2);
 //!
 //! const HASHE_COUNT: usize = 10;
 //!

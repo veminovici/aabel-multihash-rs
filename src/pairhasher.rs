@@ -22,7 +22,7 @@ use std::hash::{BuildHasher, Hasher};
 ///
 /// let keys1 = (0, 0);
 /// let keys2 = (1, 1);
-/// let mut hasher = PairHasherBuilder::new_with_keys(keys1, keys2).build_hasher();
+/// let mut hasher = BuildPairHasher::new_with_keys(keys1, keys2).build_hasher();
 ///
 /// let item = "Hello world";
 /// item.hash(&mut hasher);
@@ -85,7 +85,7 @@ where
 ///
 /// let keys1 = (0, 0);
 /// let keys2 = (1, 1);
-/// let builder = PairHasherBuilder::new_with_keys(keys1, keys2);
+/// let builder = BuildPairHasher::new_with_keys(keys1, keys2);
 ///
 /// const HASHE_COUNT: usize = 10;
 /// let item = "Hello world!";
@@ -96,18 +96,18 @@ where
 ///     .collect::<Vec<_>>();
 /// assert_eq!(hashes.len(), HASHE_COUNT)
 ///```
-pub struct PairHasherBuilder<B1, B2> {
+pub struct BuildPairHasher<B1, B2> {
     builder1: B1,
     builder2: B2,
 }
 
-impl<B1, B2> PairHasherBuilder<B1, B2> {
+impl<B1, B2> BuildPairHasher<B1, B2> {
     pub fn new(builder1: B1, builder2: B2) -> Self {
         Self { builder1, builder2 }
     }
 }
 
-impl PairHasherBuilder<BuildSipHasher, BuildSipHasher> {
+impl BuildPairHasher<BuildSipHasher, BuildSipHasher> {
     pub fn new_with_keys(keys1: SipHasherKeys, keys2: SipHasherKeys) -> Self {
         let builder1 = BuildSipHasher::from(keys1);
         let builder2 = BuildSipHasher::from(keys2);
@@ -121,7 +121,7 @@ impl PairHasherBuilder<BuildSipHasher, BuildSipHasher> {
     }
 }
 
-impl<B1, B2> BuildHasher for PairHasherBuilder<B1, B2>
+impl<B1, B2> BuildHasher for BuildPairHasher<B1, B2>
 where
     B1: BuildHasher,
     B2: BuildHasher,
@@ -138,14 +138,14 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{BuildHasherExt, PairHasherBuilder};
+    use crate::{BuildHasherExt, BuildPairHasher};
     use std::hash::{BuildHasher, Hash};
 
     #[test]
     fn build_hasherext() {
         let keys1 = (0, 0);
         let keys2 = (1, 1);
-        let mut hasher = PairHasherBuilder::new_with_keys(keys1, keys2).build_hasher();
+        let mut hasher = BuildPairHasher::new_with_keys(keys1, keys2).build_hasher();
 
         let item = "Hello world";
         item.hash(&mut hasher);
@@ -160,7 +160,7 @@ mod tests {
         let keys1 = (0, 0);
         let keys2 = (1, 1);
 
-        let builder = PairHasherBuilder::new_with_keys(keys1, keys2);
+        let builder = BuildPairHasher::new_with_keys(keys1, keys2);
         const HASHE_COUNT: usize = 10;
 
         let item = "Hello world!";
@@ -178,12 +178,12 @@ mod tests {
         let item = "Hello world!";
         const HASH_COUNT: usize = 10;
 
-        let hashes1 = PairHasherBuilder::new_with_keys(keys1, keys2)
+        let hashes1 = BuildPairHasher::new_with_keys(keys1, keys2)
             .hashes_one(item)
             .take(HASH_COUNT)
             .collect::<Vec<_>>();
 
-        let hashes2 = PairHasherBuilder::new_with_keys(keys1, keys2)
+        let hashes2 = BuildPairHasher::new_with_keys(keys1, keys2)
             .hashes_one(item)
             .take(HASH_COUNT)
             .collect::<Vec<_>>();

@@ -13,21 +13,40 @@ A crate which extends [Hasher][hasher_url] and [BuildHasher][buildhasher_url] tr
 ## HasherExt Trait
 The **HasherExt** trait extends the [Hasher][hasher_url] trait by adding capabilities to finalize the hashing operation and getting back an infinite sequest of hash values.
 The crate provides **PairHasher** which implements the **HasherExt** trait. The **PairHasher** is a combinator of two separate hashers, which are used to obtain
-the sequece of hash values, each value representing the result of an independent hashing function.
+the sequece of hash values, each value representing the result of an independent hashing function. 
+
+```rust
+pub trait HasherExt: Hasher {
+    fn finish_iter(self) -> impl Iterator<Item = u64>;
+}
+```
+
+You can see the full definition of the **HasherExt** trait in the [lib.hs][librs_url] file.
+
+The crate provides **PairHasher** which implements the **HasherExt** trait. The implementation uses two hashers, which are used to obtain the sequence of the hash values. You can see the full definition at [pairhasher.rs][pairhasherrs_url].
 
 ## BuildHasherExt Trait
-The **BuildHasherExt** trait extends the [BuildHasher][buildhasher_url] trait. It adds a cabapility to internally build an instance of the **HasherExt** trait which is used to generate the sequence of the hash values. The **BuildHasherExt** trait exposes the *hashes_one* function, which is the one that takes as input an item and returns the sequence of the hash values.
+The **BuildHasherExt** trait extends the [BuildHasher][buildhasher_url] trait. It adds a cabapility to internally build an instance of the **HasherExt** trait which is used to generate the sequence of the hash values. The **BuildHasherExt** trait exposes the *hashes_one* function, which is the one that takes as input an item and returns the sequence of the hash values. You cann see the definition of the **BuildHasher** trait in the [lib.hs][librs_url] file.
+
+```rust
+pub trait BuildHasherExt: BuildHasher {
+    /// Generates the sequece of hash values for a given item.
+    fn hashes_one<T: Hash>(&self, item: T) -> impl Iterator<Item = u64>;
+}
+```
+
+The crate provides **BuildPairHasher** which implements the **BuildHasherExt** trait. The implementation uses two hashers builders, which are used to build internally a **PairHasher** instance. You can find the source of the **BuildPairHasher** in the [pairhasher.rs][pairhasherrs_url]. The **BuildPairHasher**is the main entry point for the users which want to get sequences of hash values, see the example below.
 
 ## Example
 
 ```rust
-use aabel_multihash_rs::{BuildHasherExt, PairHasherBuilder};
+use aabel_multihash_rs::{BuildHasherExt, BuildPairHasher};
 use std::hash::{BuildHasher, Hash};
 
 // Create the hasher builder
 let keys1 = (0, 0);
 let keys2 = (1, 1);
-let builder = PairHasherBuilder::new_with_keys(keys1, keys2);
+let builder = BuildPairHasher::new_with_keys(keys1, keys2);
 
 // The number of hash functions
 const HASH_COUNT: usize = 10;
@@ -58,3 +77,5 @@ assert_eq!(hashes.len(), HASHE_COUNT)
 [estonia]: https://goo.gl/maps/DmB9ewY2R3sPGFnTA
 [hasher_url]: https://doc.rust-lang.org/std/hash/trait.Hasher.html
 [buildhasher_url]: https://doc.rust-lang.org/std/hash/trait.BuildHasher.html
+[librs_url]: ./src/lib.rs
+[pairhasherrs_url]: ./src/pairhasher.rs
