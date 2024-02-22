@@ -1,4 +1,4 @@
-# Simplee > Aabel >> Multi-Hash
+# Simplee > Aabel > Multi-Hash
 
 [![Crates.io][crates-badge]][crates-url]
 [![CI][ci-badge]][ci-url]
