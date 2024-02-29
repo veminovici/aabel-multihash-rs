@@ -39,6 +39,20 @@ mod pairhasher;
 
 pub use pairhasher::*;
 
+pub struct Hash64(u64);
+
+impl Hash64 {
+    pub fn new(value: u64) -> Self {
+        Self(value)
+    }
+}
+
+impl AsRef<u64> for Hash64 {
+    fn as_ref(&self) -> &u64 {
+        &self.0
+    }
+}
+
 /// Extends the [`Hasher`] trait by providing a mechanism to
 /// get a sequence of hash values when the hashing operation is finalized.
 pub trait HasherExt: Hasher {
