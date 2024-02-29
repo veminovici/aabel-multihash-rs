@@ -31,13 +31,51 @@
 //!
 //! assert_eq!(hashes.len(), HASHE_COUNT)
 //!```
-use std::hash::{BuildHasher, Hash, Hasher};
+use std::{
+    fmt::Display,
+    hash::{BuildHasher, Hash, Hasher},
+};
 
-mod build_siphasher;
-mod hash_iter;
-mod pairhasher;
+mod build_pair_hasher;
+mod build_sip_hasher;
+mod pair_hasher;
 
-pub use pairhasher::*;
+pub use build_pair_hasher::*;
+// pub use pair_hasher::*;
+
+/// Represents a u64 based hash value.
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Hash64(u64);
+
+impl Hash64 {
+    pub fn new(value: u64) -> Self {
+        Self(value)
+    }
+}
+
+impl Display for Hash64 {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl AsRef<u64> for Hash64 {
+    fn as_ref(&self) -> &u64 {
+        &self.0
+    }
+}
+
+impl From<u64> for Hash64 {
+    fn from(value: u64) -> Self {
+        Self::new(value)
+    }
+}
+
+impl From<Hash64> for u64 {
+    fn from(value: Hash64) -> Self {
+        value.0
+    }
+}
 
 /// Extends the [`Hasher`] trait by providing a mechanism to
 /// get a sequence of hash values when the hashing operation is finalized.
@@ -48,16 +86,15 @@ pub trait HasherExt: Hasher {
     ///
     /// Its behavior it is different than the [`Hasher::finish`]s one. The method consumes
     /// the hasher instance, so to generate new hashes you need to rebuild the hasher instance.
-    fn finish_iter(self) -> impl Iterator<Item = u64>;
+    fn finish_iter(self) -> impl Iterator<Item = Hash64>;
 }
 
 /// Extends the [`BuildHasher`] trait by allowing to compute the sequence of hash values
 /// for one given hashable value.
 pub trait BuildHasherExt: BuildHasher {
     /// Generates the sequece of hash values for a given item.
-    fn hashes_one<T: Hash>(&self, item: T) -> impl Iterator<Item = u64>
+    fn hashes_one<T: Hash>(&self, item: T) -> impl Iterator<Item = Hash64>
     where
-        Self: Sized,
         Self::Hasher: HasherExt,
     {
         let mut hasher = self.build_hasher();
